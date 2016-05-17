@@ -2,8 +2,16 @@ var express = require('express')
 var app = express()
 var dateObject = { 'unix': null, 'natural': null}
 
-function createDateOject(parsedDate) {
-  return dateObject = { 'unix': parsedDate, 'natural': Date.prototype.toDateString(parsedDate)}
+function createDateOject(timeobject, parsedDate) {
+  var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+]
+  var month = monthNames[timeobject.getMonth()]
+  var day = timeobject.getDate()
+  var year = timeobject.getFullYear()
+  var dateString = month + ' ' + day + ', ' + year
+  dateObject = { 'unix': parsedDate, 'natural': dateString }
+  return dateObject
 }
 
 app.set('port', (process.env.PORT || 5000));
@@ -12,12 +20,12 @@ app.get('/:TIME', function(request, response) {
   var time = request.params.TIME
   var timeobject = new Date(time)
   var parsedDate = Date.parse(timeobject)
-  if (parsedDate.length === 10 && parsedDate === !NaN) {
-    response.sendStatus(createDateOject(parsedDate))
+  if (JSON.stringify(timeobject)[11] === 'T') {
+    dateObject = createDateOject(timeobject, parsedDate)
+    response.sendStatus(JSON.stringify(dateObject))
   } else {
     response.sendStatus(JSON.stringify(dateObject))
   }
-
 })
 
 // ---- User stories ----
