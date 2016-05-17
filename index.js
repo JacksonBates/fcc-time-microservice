@@ -24,6 +24,7 @@ app.get('/:TIME', function(request, response) {
     dateObject = createDateOject(timeobject, parsedDate)
     response.send(JSON.stringify(dateObject))
   } else {
+    dateObject = { 'unix': null, 'natural': null}
     response.send(JSON.stringify(dateObject))
   }
 })
