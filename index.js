@@ -22,9 +22,9 @@ app.get('/:TIME', function(request, response) {
   var parsedDate = Date.parse(timeobject)
   if (JSON.stringify(timeobject)[11] === 'T') {
     dateObject = createDateOject(timeobject, parsedDate)
-    response.sendStatus(JSON.stringify(dateObject))
+    response.send(JSON.stringify(dateObject))
   } else {
-    response.sendStatus(JSON.stringify(dateObject))
+    response.send(JSON.stringify(dateObject))
   }
 })
 
