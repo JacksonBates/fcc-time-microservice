@@ -1,11 +1,23 @@
 var express = require('express')
 var app = express()
+var dateObject = { 'unix': null, 'natural': null}
+
+function createDateOject(parsedDate) {
+  return dateObject = { 'unix': parsedDate, 'natural': Date.prototype.toDateString(parsedDate)}
+}
 
 app.set('port', (process.env.PORT || 5000));
 
 app.get('/:TIME', function(request, response) {
   var time = request.params.TIME
-  response.send(time)
+  var timeobject = new Date(time)
+  var parsedDate = Date.parse(timeobject)
+  if (parsedDate.length === 10 && parsedDate === !NaN) {
+    response.sendStatus(createDateOject(parsedDate))
+  } else {
+    response.sendStatus(JSON.stringify(dateObject))
+  }
+
 })
 
 // ---- User stories ----
