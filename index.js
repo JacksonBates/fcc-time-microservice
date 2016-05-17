@@ -3,8 +3,9 @@ var app = express()
 
 app.set('port', (process.env.PORT || 5000));
 
-app.get('/', function(request, response) {
-  response.send('Hello')
+app.get('/:TIME', function(request, response) {
+  var time = request.params.TIME
+  response.send(time)
 })
 
 // ---- User stories ----
