@@ -2,7 +2,7 @@ var express = require('express')
 var app = express()
 var dateObject = { 'unix': null, 'natural': null}
 
-function createDateOject(timeobject, parsedDate) {
+function createDateOjectFromString(timeobject, parsedDate) {
   var monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ]
@@ -14,19 +14,43 @@ function createDateOject(timeobject, parsedDate) {
   return dateObject
 }
 
+function createDateOjectFromNumber(timeobject, stringTime) {
+  var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+]
+  var month = monthNames[timeobject.getMonth()]
+  var day = timeobject.getDate()
+  var year = timeobject.getFullYear()
+  var ms = Date.parse(JSON.stringify(timeobject))
+  var dateString = month + ' ' + day + ', ' + year
+  dateObject = { 'unix': stringTime, 'natural': dateString }
+  return dateObject
+
+}
+
 app.set('port', (process.env.PORT || 5000));
 
+app.get('/', function(request, response) {
+  response.send('Pass a valid date to the url to return the unix and natural versions')
+})
+
 app.get('/:TIME', function(request, response) {
-  var time = request.params.TIME
-  var timeobject = new Date(time)
-  var parsedDate = Date.parse(timeobject)
-  if (JSON.stringify(timeobject)[11] === 'T') {
-    dateObject = createDateOject(timeobject, parsedDate)
-    response.send(JSON.stringify(dateObject))
+  var stringTime = request.params.TIME
+  if (isNaN(stringTime)) {
+    var timeobject = new Date(stringTime)
+    var parsedDate = Date.parse(timeobject)
+    if (JSON.stringify(timeobject)[11] === 'T') {
+      dateObject = createDateOjectFromString(timeobject, parsedDate)
+      response.send(JSON.stringify(dateObject))
+    } else {
+      dateObject = { 'unix': null, 'natural': null}
+      response.send(JSON.stringify(dateObject))
+    }
   } else {
-    dateObject = { 'unix': null, 'natural': null}
+    var timeobject = new Date(+stringTime)
+    dateObject = createDateOjectFromNumber(timeobject, stringTime)
     response.send(JSON.stringify(dateObject))
-  }
+    }
 })
 
 // ---- User stories ----
