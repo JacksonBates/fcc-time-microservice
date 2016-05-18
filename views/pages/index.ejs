@@ -1,16 +1,14 @@
 <html>
   <head>
     <title>Unix Time Microservice</title>
-    <link rel="favicon" href="favicon.png" sizes="32x32">
-  </head>
   <body>
     <h1>Unix Time Microservice</h1>
-    <p>Pass a valid date or unix timestamp as a URL parameter to receive a JSON formatted unix and natural time object.</p>
+    <p>Pass a valid date or unix timestamp as a URL parameter to receive a JSON formatted unix and natural time object. Note that spaces are permitted in the URL parameter.</p>
     <h2>Example Usage</h2>
     <p>https://warm-garden-13868.herokuapp.com/21 January, 2016</p>
-    <p>https://warm-garden-13868.herokuapp.com/1453334400000</p>
+    <p>https://warm-garden-13868.herokuapp.com/1453334400</p>
     <h2>Example Output</h2>
-    <p>{"unix":1453334400000,"natural":"January 21, 2016"}</p>
+    <p>{"unix":1453334400,"natural":"January 21, 2016"}</p>
     <p><a href="https://github.com/JacksonBates/fcc-time-microservice">Github repo</a></p>
   </body>
 </html>
