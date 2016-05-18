@@ -10,7 +10,7 @@ function createDateOjectFromString(timeobject, parsedDate) {
   var day = timeobject.getDate()
   var year = timeobject.getFullYear()
   var dateString = month + ' ' + day + ', ' + year
-  dateObject = { 'unix': parsedDate, 'natural': dateString }
+  dateObject = { 'unix': +parsedDate, 'natural': dateString }
   return dateObject
 }
 
@@ -23,15 +23,18 @@ function createDateOjectFromNumber(timeobject, stringTime) {
   var year = timeobject.getFullYear()
   var ms = Date.parse(JSON.stringify(timeobject))
   var dateString = month + ' ' + day + ', ' + year
-  dateObject = { 'unix': stringTime, 'natural': dateString }
+  dateObject = { 'unix': +stringTime, 'natural': dateString }
   return dateObject
 
 }
 
 app.set('port', (process.env.PORT || 5000));
 
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
 app.get('/', function(request, response) {
-  response.send('Pass a valid date to the url to return the unix and natural versions')
+  response.render('pages/index')
 })
 
 app.get('/:TIME', function(request, response) {
