@@ -10,7 +10,7 @@ function createDateOjectFromString(timeobject, parsedDate) {
   var day = timeobject.getDate()
   var year = timeobject.getFullYear()
   var dateString = month + ' ' + day + ', ' + year
-  dateObject = { 'unix': +parsedDate, 'natural': dateString }
+  dateObject = { 'unix': +parsedDate / 1000, 'natural': dateString }
   return dateObject
 }
 
@@ -50,7 +50,7 @@ app.get('/:TIME', function(request, response) {
       response.send(JSON.stringify(dateObject))
     }
   } else {
-    var timeobject = new Date(+stringTime)
+    var timeobject = new Date(+stringTime * 1000)
     dateObject = createDateOjectFromNumber(timeobject, stringTime)
     response.send(JSON.stringify(dateObject))
     }
